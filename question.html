@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yes or No</title>
+<link rel="icon" type="image/x-icon" href="yes no.jpg">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-image: url("thought.gif");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Ensure balloons stay within the screen */
+        transition: background-image 0.3s ease;
+    }
+    .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: rgba(68, 67, 67, 0.9);
+        border-radius: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+        color: #007bff;
+        font-size: 24px;
+        font-family: 'Archivo Black';
+    }
+  
+    input[type="text"] {
+        width: calc(100% - 22px);
+        max-width: 300px;
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        position: relative;
+        overflow: hidden;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    #answer {
+        font-size: 24px;
+        margin-top: 20px;
+        color: #007bff;
+    }
+
+    @font-face {
+        font-family: 'Archivo Black';
+        src: url(ARCH2.ttf);
+        font-weight: normal;
+    }
+
+    .name {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        color: rgba(7, 7, 7, 0.5);
+        font-size: 14px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+    }
+
+    .balloon {
+        position: absolute;
+        width: 80px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+        animation: floatUp 3s ease-in forwards;
+        opacity: 0.7;
+    }
+
+    .balloon:before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 2px;
+        height: 10px;
+        background-color: red;
+        transform: translateX(-50%);
+    }
+
+    @keyframes floatUp {
+        0% {
+            bottom: 0;
+            opacity: 0.7;
+        }
+        100% {
+            bottom: 100vh;
+            opacity: 0;
+        }
+    }
+
+    /* Temporary background change */
+    .temp-background {
+        background-image: url("ok.gif");
+    }
+
+    /* Background for no input scenario */
+    .no-input-background {
+        background-image: url("down.gif");
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Ask a Yes or No Question:</h1>
+    <input type="text" id="question" placeholder="Input your question here">
+    <button onclick="generateAnswer()">Answer</button>
+    <div id="answer"></div>
+</div>
+<div class="name">
+    Gawa Gawa ni Jhet kasi hinde siya makatulog
+</div>
+
+<script>
+    function generateAnswer() {
+        var question = document.getElementById("question").value.trim();
+        if (question === "") {
+            changeBackground('no-input-background');
+            alert("ASAN MAN JAN QUESTION MO BRO????.");
+            return;
+        }
+
+        changeBackground('temp-background');
+
+        var answers = ["Yah uh", "Nuh uh"];
+        var randomIndex = Math.floor(Math.random() * answers.length);
+        var answer = answers[randomIndex];
+
+        document.getElementById("answer").innerHTML = "" + answer;
+
+        createBalloons(5);
+    }
+
+    function createBalloons(num) {
+        for (let i = 0; i < num; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * 100 + '%';
+            balloon.style.backgroundColor = getRandomColor();
+            document.body.appendChild(balloon);
+
+            // Remove the balloon after the animation ends
+            balloon.addEventListener('animationend', () => {
+                balloon.remove();
+            });
+        }
+    }
+
+    function getRandomColor() {
+        const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#ee82ee'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function changeBackground(className) {
+        document.body.classList.add(className);
+        setTimeout(function() {
+            document.body.classList.remove(className);
+        }, 2000);
+    }
+</script>
+</body>
+</html>
